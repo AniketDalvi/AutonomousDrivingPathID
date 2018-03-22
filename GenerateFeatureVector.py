@@ -39,6 +39,7 @@ class FeatureVectorGenerator():
 
 
 if __name__ == '__main__':
+	#print('Use run.py to start')
 	image = cv2.imread('Images/mountain_center.png', -1);
 	for i in range(1):
 		FeatureVectorGenerator.generate_feature_vector(image, 10, 10, False, 8)
