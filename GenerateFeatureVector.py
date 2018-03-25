@@ -1,13 +1,14 @@
 import numpy as np
 import cv2
+import csv
 import matplotlib.pyplot as plt
 
 class FeatureVectorGenerator():
 	
 	@staticmethod
-	def generate_feature_vector(img, cell_size_x, cell_size_y, train, bins):
+	def generate_feature_vector(img, cell_size_x, cell_size_y, train, bins, save):
 
-		fVectors = [];
+		f_vectors = [];
 		rows, columns, channels = img.shape
 		for y in range(0, columns - cell_size_y, cell_size_y):
 			for x in range(0, rows - cell_size_x, cell_size_x):
@@ -21,9 +22,13 @@ class FeatureVectorGenerator():
 				b, b_bin_edges = np.histogram(window[..., 1], bins, (0, 255))
 				c, c_bin_edges = np.histogram(window[..., 2], bins, (0, 255))
 				c = np.append(c, window_class)
-				fVectors.append(np.concatenate((a, b, c)))
+				f_vectors.append(np.concatenate((a, b, c)))
 				#print(fVectors.pop())
 				#print('\n')
+		#print(len(f_vectors))
+		FeatureVectorGenerator.write_data(f_vectors, train)
+		#FeatureVectorGenerator.return_data(train)
+				
 
 	@staticmethod
 	def get_training_feedback(img, cell_size_y, cell_size_x):
@@ -37,9 +42,34 @@ class FeatureVectorGenerator():
 		cv2.destroyAllWindows()	
 		return -1
 
+	@staticmethod
+	def write_data(feature_vectors, train):
+		name = "testdata.csv"
+		if train:
+			name = "traindata.csv"
+		
+		with open(name,'a') as resultFile:
+			wr = csv.writer(resultFile)
+			wr.writerow("Next Image")
+			#wr.writerows(feature_vectors)
+
+	@staticmethod
+	def return_data(train):
+		f_vectors = [];
+		name = "testdata.csv"
+		if train:
+			name = "traindata.csv"
+		f=open(name, "r")
+		for line in f:
+			if line.startswith("-"):
+				if not len(f_vectors) == 0:
+					f_vectors = [];
+			else:
+				if not len(line.strip()) == 0:
+					f_vectors.append(np.asarray(line.split()))
 
 if __name__ == '__main__':
 	#print('Use run.py to start')
 	image = cv2.imread('Images/mountain_center.png', -1);
 	for i in range(1):
-		FeatureVectorGenerator.generate_feature_vector(image, 10, 10, False, 8)
+		FeatureVectorGenerator.generate_feature_vector(image, 10, 10, False, 8, True)
