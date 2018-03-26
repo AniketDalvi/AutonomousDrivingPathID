@@ -13,6 +13,8 @@ from sklearn.metrics import accuracy_score
 #y = np.array(tr_data['class'])         # showing you two ways of indexing a pandas df
 # split into train and test
 #X_tr, X_test, Y_tr, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+#acc = accuracy_score(y_test, pred) * 100
+#print('\nThe accuracy of the knn classifier for k = 3 is %d%%' % acc)
 #------------------------Used for Testing----------------------------------------
 
 # loading training data
@@ -32,6 +34,3 @@ knn.fit(X_tr, Y_tr)
 
 # predict the response
 pred = knn.predict(X_test)
-
-acc = accuracy_score(y_test, pred) * 100
-print('\nThe accuracy of the knn classifier for k = 3 is %d%%' % acc)
