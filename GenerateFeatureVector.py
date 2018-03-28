@@ -9,9 +9,9 @@ class FeatureVectorGenerator():
 	def generate_feature_vector(img, cell_size_x, cell_size_y, train, bins, save):
 
 		f_vectors = [];
-		rows, columns, channels = img.shape
-		for y in range(0, 2*cell_size_y, cell_size_y):
-			for x in range(0, 2*cell_size_x, cell_size_x):
+		columns, rows, channels = img.shape
+		for y in range(0, columns - cell_size_y, cell_size_y):
+			for x in range(0, rows - cell_size_x, cell_size_x):
 				window_class = 0
 				window = img[x:x+cell_size_x, y:y+cell_size_y]
 
@@ -70,9 +70,10 @@ class FeatureVectorGenerator():
 			else:
 				if not len(line.strip()) == 0:
 					f_vectors.append(np.asarray(line.split()))
+                    
 
 if __name__ == '__main__':
 	#print('Use run.py to start')
-	image = cv2.imread('Images/mountain_center.png', -1);
+	image = cv2.imread('Images/Training/RGB/3.png', -1);
 	for i in range(1):
 		FeatureVectorGenerator.generate_feature_vector(image, 10, 10, True, 8, True)
