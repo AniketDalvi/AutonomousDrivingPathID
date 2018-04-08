@@ -14,10 +14,10 @@ class FeatureVectorGenerator():
 			for x in range(0, rows - cell_size_x, cell_size_x):
 				window_class = 0
 				window = img[x:x+cell_size_x, y:y+cell_size_y]
-
+            
 				if train:
 					window_class = FeatureVectorGenerator.get_training_feedback(img, x, y, cell_size_y, cell_size_x)
-
+            
 				a, a_bin_edges = np.histogram(window[..., 0], bins, (0, 255))
 				b, b_bin_edges = np.histogram(window[..., 1], bins, (0, 255))
 				c, c_bin_edges = np.histogram(window[..., 2], bins, (0, 255))
