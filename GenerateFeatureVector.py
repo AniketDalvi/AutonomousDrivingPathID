@@ -27,7 +27,7 @@ class FeatureVectorGenerator():
 				#print('\n')
 
 		#print(len(f_vectors))
-		FeatureVectorGenerator.write_data(f_vectors, train)
+		#FeatureVectorGenerator.write_data(f_vectors, train)
 		#FeatureVectorGenerator.return_data(train)
 				
 
@@ -58,6 +58,7 @@ class FeatureVectorGenerator():
 
 	@staticmethod
 	def return_data(train):
+		images = 0
 		f_vectors = [];
 		name = "testdata.csv"
 		if train:
@@ -66,10 +67,13 @@ class FeatureVectorGenerator():
 		for line in f:
 			if line.startswith("-"):
 				if not len(f_vectors) == 0:
-					f_vectors = [];
+					images = images + 1
+
 			else:
 				if not len(line.strip()) == 0:
-					f_vectors.append(np.asarray(line.split()))
+					array = [int(x) for x in line.split(',')]
+					f_vectors.append(np.asarray(array))
+		return f_vectors
                     
 
 if __name__ == '__main__':
