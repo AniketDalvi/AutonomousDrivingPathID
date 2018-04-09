@@ -31,8 +31,8 @@ class SVM:
     	return self.clf.predict(feature_vector)
 
 #example on how to run/call the program
-svmObj = SVM()
-feature_vector = [[1,1,1], [0,0,0]]
-svmObj.train(feature_vector)
-test_vector = [0.2, 0.2]
-svmObj.test(test_vectors)
+#svmObj = SVM()
+#feature_vector = [[1,1,1], [0,0,0]]
+#svmObj.train(feature_vector)
+#test_vector = [[0.2, 0.2]]
+#print(svmObj.test(test_vector))
