@@ -32,14 +32,14 @@
     # predict the response
     #pred = knn.predict(X_test)
     #-----------------------Old Approach-------------------------------------------
-        def predict(X_train, Y_train, X_test, k, distances):
+        def predict(X_train, Y_train, X_test, k):
             
         # check if k is not larger than n
     	if k > len(X_train):
     		raise ValueError
     	# create list of targets
     	targets = []
-    
+        distances = []
     	for i in range(len(X_train)):
     		# first we compute the euclidean distance
     		distance = np.sqrt(np.sum(np.square(X_test - X_train[i, :])))
@@ -56,4 +56,4 @@
     		targets.append(Y_train[index])
     
     	# return most common target and distance for persistence
-    	return Counter(targets).most_common(1)[0][0],distances
+    	return Counter(targets).most_common(1)[0][0]
