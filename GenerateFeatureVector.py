@@ -26,8 +26,6 @@ class FeatureVectorGenerator():
                 if save:
                     write_data(f_vectors, train)
 
-        return f_vectors
-
 
     @staticmethod
     def get_training_feedback(img, x, y, cell_size_y, cell_size_x):
