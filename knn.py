@@ -35,26 +35,34 @@ class KNearestNeighbors():
     #-----------------------Old Approach-------------------------------------------
     def predict(self, X_train, Y_train, X_test, k):
         
-        # check if k is not larger than n
-        if k > len(X_train):
-            raise ValueError
-    	# create list of targets
-        targets = []
-        distances = []
-        for i in range(len(X_train)):
-    		# first we compute the euclidean distance
-            distance = np.sqrt(np.sum(np.square(X_test - X_train[i, :])))
-    		# add it to list of distances
-            distances.append([distance, i])
-    
-    	# sort the list
-        distances = sorted(distances)
-    
-    	# make a list of the k neighbors' targets
-        for i in range(k):
-        		index = distances[i][1]
-    		#print(y_train[index])
-        		targets.append(Y_train[index])
-    
-    	# return most common target and distance for persistence
-        return Counter(targets).most_common(1)[0][0]
+         # instantiate learning model with given k
+            knn = KNeighborsClassifier(n_neighbors = k)
+            #fitting the model
+            knn.fit(X_train, Y_train)
+            #predict response
+            pred = knn.predict(X_test)
+            #return predicted value
+            return pred
+#        # check if k is not larger than n
+#    	if k > len(X_train):
+#    		raise ValueError
+#    	# create list of targets
+#    	targets = []
+#    
+#    	for i in range(len(X_train)):
+#    		# first we compute the euclidean distance
+#    		distance = np.sqrt(np.sum(np.square(X_test - X_train[i, :])))
+#    		# add it to list of distances
+#    		distances.append([distance, i])
+#    
+#    	# sort the list
+#    	distances = sorted(distances)
+#    
+#    	# make a list of the k neighbors' targets
+#    	for i in range(k):
+#    		index = distances[i][1]
+#    		#print(y_train[index])
+#    		targets.append(Y_train[index])
+#    
+#    	# return most common target and distance for persistence
+#    	return Counter(targets).most_common(1)[0][0],distances
