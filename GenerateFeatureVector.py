@@ -14,21 +14,20 @@ class FeatureVectorGenerator():
                 window_class = 0
                 window = img[x:x+cell_size_x, y:y+cell_size_y]
             
-            if train:
-                window_class = FeatureVectorGenerator.get_training_feedback(img, x, y, cell_size_y, cell_size_x)
+                if train:
+                    window_class = FeatureVectorGenerator.get_training_feedback(img, x, y, cell_size_y, cell_size_x)
             
                 a, a_bin_edges = np.histogram(window[..., 0], bins, (0, 255))
                 b, b_bin_edges = np.histogram(window[..., 1], bins, (0, 255))
                 c, c_bin_edges = np.histogram(window[..., 2], bins, (0, 255))
                 c = np.append(c, window_class)
                 f_vectors.append(np.concatenate((a, b, c)))
-        return f_vectors
-                #print(f_vectors.pop())
-                #print('\n')
-                #print(len(f_vectors))
-        #FeatureVectorGenerator.write_data(f_vectors, train)
-        #FeatureVectorGenerator.return_data(train)
                 
+                if save:
+                    write_data(f_vectors, train)
+
+        return f_vectors
+
 
     @staticmethod
     def get_training_feedback(img, x, y, cell_size_y, cell_size_x):
@@ -41,6 +40,7 @@ class FeatureVectorGenerator():
         # 1 for road -1 for other
         if k == ord('y') or k == ord('Y'):
             return 1
+        
         cv2.destroyAllWindows()    
         return -1
 
@@ -52,31 +52,34 @@ class FeatureVectorGenerator():
         
         with open(name,'a') as resultFile:
             wr = csv.writer(resultFile)
-            wr.writerow("--")
-            wr.writerows(feature_vectors)
-
-    @staticmethod
-    def return_data(train):
-        images = 0
-        f_vectors = [];
-        name = "testdata.csv"
-        if train:
-            name = "traindata.csv"
-        f=open(name, "r")
-        for line in f:
-            if line.startswith("-"):
-                if not len(f_vectors) == 0:
-                    images = images + 1
-
-            else:
-                if not len(line.strip()) == 0:
-                    array = [int(x) for x in line.split(',')]
-                    f_vectors.append(np.asarray(array))
-        return f_vectors
-                    
+            wr.writerows(feature_vectors)                    
 
 if __name__ == '__main__':
     #print('Use run.py to start')
     image = cv2.imread('Images/Training/RGB/3.png', -1);
     for i in range(1):
         FeatureVectorGenerator.generate_feature_vector(image, 10, 10, True, 8, True)
+
+
+
+
+
+
+   # @staticmethod
+    # def return_data(train):
+    #     images = 0
+    #     f_vectors = [];
+    #     name = "testdata.csv"
+    #     if train:
+    #         name = "traindata.csv"
+    #     f=open(name, "r")
+    #     for line in f:
+    #         if line.startswith("-"):
+    #             if not len(f_vectors) == 0:
+    #                 images = images + 1
+
+    #         else:
+    #             if not len(line.strip()) == 0:
+    #                 array = [int(x) for x in line.split(',')]
+    #                 f_vectors.append(np.asarray(array))
+    #     return f_vectors

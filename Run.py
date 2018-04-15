@@ -9,13 +9,14 @@ svm_obj = SVM()
 
 cell_length = 10
 cell_width = 10
-training = True
+training = False
 bins = 8
-image = cv2.imread('1.png', -1)
+
 #for testing purposes
-#image = cv2.imread('Images/mountain_center.png', -1);
+#image = cv2.imread('Images/Testing/000102.png', -1)
 #test_vector = gfv.FeatureVectorGenerator.generate_feature_vector(image, cell_width, cell_length, training, bins, False)
 #print(test_vector)
+
 test_vector = genfromtxt('nothing.csv', delimiter=',')
 test_vector = test_vector[:, 0:24]
 
