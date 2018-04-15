@@ -33,16 +33,20 @@ class KNearestNeighbors():
     # predict the response
     #pred = knn.predict(X_test)
     #-----------------------Old Approach-------------------------------------------
-    def predict(self, X_train, Y_train, X_test, k):
+    def __init__(self):
+        self.knn = None
         
-         # instantiate learning model with given k
-            knn = KNeighborsClassifier(n_neighbors = k)
-            #fitting the model
-            knn.fit(X_train, Y_train)
-            #predict response
-            pred = knn.predict(X_test)
-            #return predicted value
-            return pred
+    def train(self, X_train, Y_train, k):
+        # instantiate learning model with given k
+        self.knn = KNeighborsClassifier(n_neighbors = k)
+        #fitting the model
+        self.knn.fit(X_train, Y_train)
+        
+    def predict(self, X_test):
+        #predict response
+        pred = self.knn.predict(X_test)
+        #return predicted value
+        return pred
 #        # check if k is not larger than n
 #    	if k > len(X_train):
 #    		raise ValueError
