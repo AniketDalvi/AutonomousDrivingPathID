@@ -12,7 +12,7 @@ cell_width = 10
 training = False
 bins = 8
 
-#image = cv2.imread('Images/Testing/000102.png', -1)
+image = cv2.imread('Images/Training/1.png', -1)
 #gfv.FeatureVectorGenerator.generate_feature_vector(image, cell_width, cell_length, training, bins, True)
 
 
@@ -32,17 +32,14 @@ knn_obj.train(my_data, labels, 20)
 for x in range(0, rows - cell_width, cell_width):
     for y in range(0, columns - cell_length, cell_length):
         test = [test_vector[counter]]
-        label = knn_obj.predict(test)
-#        label = svm_obj.test(test)
-#        print(label)
+        #label = knn_obj.predict(test)
+        label = svm_obj.test(test)
+        print(label)
         if label == 1:           
             image[x:x+cell_width, y:y+cell_length, 0] = 0
             image[x:x+cell_width, y:y+cell_length, 1] = 0
             image[x:x+cell_width, y:y+cell_length, 2] = 100
-        if label == -1:
-            image[x:x+cell_width, y:y+cell_length, 0] = 0
-            image[x:x+cell_width, y:y+cell_length, 1] = 100
-            image[x:x+cell_width, y:y+cell_length, 2] = 0
+        
         counter += 1
         
 print(counter)

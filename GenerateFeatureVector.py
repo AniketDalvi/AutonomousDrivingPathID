@@ -9,22 +9,39 @@ class FeatureVectorGenerator():
     def generate_feature_vector(img, cell_size_x, cell_size_y, train, bins, save):
         f_vectors = []
         columns, rows, channels = img.shape
+        
         for y in range(0, columns - cell_size_y, cell_size_y):
             for x in range(0, rows - cell_size_x, cell_size_x):
                 window_class = 0
-                window = img[x:x+cell_size_x, y:y+cell_size_y]
+                window = img[y:y+cell_size_y, x:x+cell_size_x]
             
                 if train:
                     window_class = FeatureVectorGenerator.get_training_feedback(img, x, y, cell_size_y, cell_size_x)
-            
+                # print(window[..., 0])
+                # print(window[..., 1])
+                # print(window[..., 2])
                 a, a_bin_edges = np.histogram(window[..., 0], bins, (0, 255))
                 b, b_bin_edges = np.histogram(window[..., 1], bins, (0, 255))
                 c, c_bin_edges = np.histogram(window[..., 2], bins, (0, 255))
+                # if np.count_nonzero(a) == 0 and np.count_nonzero(b) == 0 and np.count_nonzero(c) == 0:
+                # 	print(columns)
+                # 	print(rows)
+                # 	print(y)
+                # 	print(x)
+                # 	print('\n')
+                # 	# print(np.concatenate((a, b, c)))
+                # 	# print('bad vector')
+                # 	print(window[..., 0])
+                # 	print(window[..., 1])
+                # 	print(window[..., 2])
+
                 c = np.append(c, window_class)
-                f_vectors.append(np.concatenate((a, b, c)))
                 
-                if save:
-                    write_data(f_vectors, train)
+                f_vectors.append(np.concatenate((a, b, c)))
+
+                
+        if save:
+        	FeatureVectorGenerator.write_data(f_vectors, train)
 
 
     @staticmethod
@@ -54,9 +71,9 @@ class FeatureVectorGenerator():
 
 if __name__ == '__main__':
     #print('Use run.py to start')
-    image = cv2.imread('Images/Training/RGB/3.png', -1);
+    image = cv2.imread('Images/Training/1.png', -1);
     for i in range(1):
-        FeatureVectorGenerator.generate_feature_vector(image, 10, 10, True, 8, True)
+        FeatureVectorGenerator.generate_feature_vector(image, 10, 10, False, 8, True)
 
 
 
