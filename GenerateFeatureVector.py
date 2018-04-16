@@ -71,9 +71,9 @@ class FeatureVectorGenerator():
 
 if __name__ == '__main__':
     #print('Use run.py to start')
-    image = cv2.imread('Images/Training/1.png', -1);
+    image = cv2.imread('Images/Training/000100.png', -1);
     for i in range(1):
-        FeatureVectorGenerator.generate_feature_vector(image, 10, 10, False, 8, True)
+        FeatureVectorGenerator.generate_feature_vector(image, 10, 10, True, 8, True)
 
 
 
