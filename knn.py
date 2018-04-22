@@ -38,7 +38,7 @@ class KNearestNeighbors():
         
     def train(self, X_train, Y_train, k):
         # instantiate learning model with given k
-        self.knn = KNeighborsClassifier(n_neighbors = k)
+        self.knn = KNeighborsClassifier(n_neighbors = k,  weights= 'distance')
         #fitting the model
         self.knn.fit(X_train, Y_train)
         

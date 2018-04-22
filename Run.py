@@ -14,8 +14,10 @@ training = False
 bins = 8
 
 destination = 'Result/result'
-i = 0
+i = 95
+print(i)
 for filename in sorted(glob.glob('Images/Testing/*.png')):
+	print(i)
 	image = cv2.imread(filename, -1)
 	gfv.FeatureVectorGenerator.generate_feature_vector(image, cell_width, cell_length, training, bins, True)
 
@@ -26,8 +28,8 @@ for filename in sorted(glob.glob('Images/Testing/*.png')):
 
 	counter = 0
 	my_data = genfromtxt('traindata.csv', delimiter=',')
-	print(len(my_data))
-	svm_obj.train(my_data)
+	#print(len(my_data))
+	#svm_obj.train(my_data)
 
 	labels = my_data[:, 24]
 	my_data = my_data[:, 0:24]
@@ -55,4 +57,3 @@ for filename in sorted(glob.glob('Images/Testing/*.png')):
 	url = destination + str(i) + '.png'
 	i = i+1
 	cv2.imwrite(url, image)
-
