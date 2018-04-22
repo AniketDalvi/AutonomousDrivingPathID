@@ -1,6 +1,7 @@
     # loading libraries
 import pandas as pd
 import numpy as np
+import sklearn.preprocessing
 from sklearn.cross_validation import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cross_validation import cross_val_score
@@ -38,13 +39,15 @@ class KNearestNeighbors():
         
     def train(self, X_train, Y_train, k):
         # instantiate learning model with given k
+        X_normalized = preprocessing.normalize(X_train)
         self.knn = KNeighborsClassifier(n_neighbors = k,  weights= 'distance')
         #fitting the model
-        self.knn.fit(X_train, Y_train)
+        self.knn.fit(X_normalized, Y_train)
         
     def predict(self, X_test):
         #predict response
-        pred = self.knn.predict(X_test)
+        X_normalized_test = preprocessing.normalize(X_test)
+        pred = self.knn.predict(X_normalized_test)
         #return predicted value
         return pred
 #        # check if k is not larger than n
