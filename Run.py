@@ -14,7 +14,7 @@ training = False
 bins = 8
 
 destination = 'Result/result'
-i = 95
+i = 340
 print(i)
 for filename in sorted(glob.glob('Images/Testing/*.png')):
 	print(i)
@@ -45,8 +45,8 @@ for filename in sorted(glob.glob('Images/Testing/*.png')):
 	        #label = svm_obj.test(test)
 	#        print(label)
 	        if label == 1:           
-	            image[x:x+cell_width, y:y+cell_length, 0] = 0
-	            image[x:x+cell_width, y:y+cell_length, 1] = 0
+	            image[x:x+cell_width, y:y+cell_length, 0] = 00
+	            image[x:x+cell_width, y:y+cell_length, 1] = 00
 	            image[x:x+cell_width, y:y+cell_length, 2] = 100
 	        
 	        counter += 1

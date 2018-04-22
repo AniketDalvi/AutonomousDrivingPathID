@@ -1,7 +1,7 @@
     # loading libraries
 import pandas as pd
 import numpy as np
-import sklearn.preprocessing
+import sklearn.preprocessing as preprocessing
 from sklearn.cross_validation import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cross_validation import cross_val_score

@@ -61,6 +61,21 @@ class FeatureVectorGenerator():
         return -1
 
     @staticmethod
+    def binary_road(img):
+    	gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    	_, gray = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
+
+    	erode = cv2.erode(gray, np.ones((3, 3)), anchor = (2,2), iterations = 1)
+    	dilate = cv2.dilate(gray, np.ones((3, 3)), anchor = (2,2), iterations = 1)
+    	_, dilate = cv2.threshold(dilate, 1, 50, cv2.THRESH_BINARY_INV)
+    	path_trace = erode+dilate
+    	path_trace = np.int32(path_trace)
+    	cv2.watershed(img,path_trace)
+    	cv2.imshow('image', cv2.convertScaleAbs(path_trace))
+    	cv2.waitKey(0)
+    	cv2.destroyAllWindows()
+
+    @staticmethod
     def write_data(feature_vectors, train):
         name = "testdata.csv"
         if train:
@@ -73,9 +88,9 @@ class FeatureVectorGenerator():
 
 if __name__ == '__main__':
     #print('Use run.py to start')
-    image = cv2.imread('Images/Training/000100.png', -1);
+    image = cv2.imread('Images/Training/1.png', -1);
     for i in range(1):
-        FeatureVectorGenerator.generate_feature_vector(image, 10, 10, False, 8, True)
+      FeatureVectorGenerator.binary_road(image)
 
 
 
