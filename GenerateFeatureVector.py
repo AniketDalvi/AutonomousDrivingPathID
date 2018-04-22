@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import csv
 import matplotlib.pyplot as plt
+import os 
 
 class FeatureVectorGenerator():
     
@@ -64,14 +65,15 @@ class FeatureVectorGenerator():
         name = "testdata.csv"
         if train:
             name = "traindata.csv"
-        
+        if not train:
+            os.remove(name)
         with open(name,'a') as resultFile:
             wr = csv.writer(resultFile)
             wr.writerows(feature_vectors)                    
 
 if __name__ == '__main__':
     #print('Use run.py to start')
-    image = cv2.imread('Images/Training/1.png', -1);
+    image = cv2.imread('Images/Testing/000140.png', -1);
     for i in range(1):
         FeatureVectorGenerator.generate_feature_vector(image, 10, 10, False, 8, True)
 

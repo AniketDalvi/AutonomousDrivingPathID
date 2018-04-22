@@ -13,7 +13,7 @@ class SVM:
     def train(self, feature_vector):
         X = []
         y = []
-        self.clf = svm.LinearSVC(C = 0.25)
+        self.clf = svm.SVC(C = 0.25, probability = True)
         for i in range(len(feature_vector)):
             X.append(feature_vector[i][:len(feature_vector[i])-1])
             y.append(feature_vector[i][len(feature_vector[i])-1])
@@ -28,11 +28,11 @@ class SVM:
         @return:
             predicted class/label according to learned svm model
         '''          
-        return self.clf.predict(feature_vector)
+        return [self.clf.predict(feature_vector)[0], max(max(self.clf.predict_proba(feature_vector)))]
 
 #example on how to run/call the program
 #svmObj = SVM()
 #feature_vector = [[1,1,1], [0,0,0]]
 #svmObj.train(feature_vector)
-#test_vector = [[0.2, 0.2]]
+#test_vector = [[1, 1]]
 #print(svmObj.test(test_vector))
