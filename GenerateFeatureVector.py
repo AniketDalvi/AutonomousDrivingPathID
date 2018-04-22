@@ -2,7 +2,11 @@ import numpy as np
 import cv2
 import csv
 import matplotlib.pyplot as plt
+<<<<<<< HEAD
 import os 
+=======
+import os
+>>>>>>> abe50108d5b5352021f6178c9b62735ec3463568
 
 class FeatureVectorGenerator():
     
@@ -67,13 +71,21 @@ class FeatureVectorGenerator():
             name = "traindata.csv"
         if not train:
             os.remove(name)
+<<<<<<< HEAD
+=======
+        
+>>>>>>> abe50108d5b5352021f6178c9b62735ec3463568
         with open(name,'a') as resultFile:
             wr = csv.writer(resultFile)
             wr.writerows(feature_vectors)                    
 
 if __name__ == '__main__':
     #print('Use run.py to start')
+<<<<<<< HEAD
     image = cv2.imread('Images/Testing/000140.png', -1);
+=======
+    image = cv2.imread('Images/Training/000100.png', -1);
+>>>>>>> abe50108d5b5352021f6178c9b62735ec3463568
     for i in range(1):
         FeatureVectorGenerator.generate_feature_vector(image, 10, 10, False, 8, True)
 
