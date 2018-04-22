@@ -53,5 +53,6 @@ for filename in sorted(glob.glob('Images/Testing/*.png')):
 	#cv2.waitKey(0)
 	#cv2.destroyAllWindows()
 	url = destination + str(i) + '.png'
+	i = i+1
 	cv2.imwrite(url, image)
 
