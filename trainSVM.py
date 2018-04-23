@@ -1,4 +1,5 @@
 from sklearn import svm
+from sklearn import calibration
 class SVM:
     def __init__(self):
         self.clf = None      
@@ -13,13 +14,13 @@ class SVM:
     def train(self, feature_vector):
         X = []
         y = []
-        self.clf = svm.SVC(C = 0.25, probability = True)
+        classifier = svm.LinearSVC(C = 0.25)
+#        self.clf = calibration.CalibratedClassifierCV(classifier, cv = 2)
         for i in range(len(feature_vector)):
             X.append(feature_vector[i][:len(feature_vector[i])-1])
             y.append(feature_vector[i][len(feature_vector[i])-1])
-        self.clf.fit(X, y)   
-        
-    
+        self.clf.fit(X, y)  
+
     def test(self,feature_vector):
         '''
         @args:
@@ -28,11 +29,12 @@ class SVM:
         @return:
             predicted class/label according to learned svm model
         '''          
-        return [self.clf.predict(feature_vector)[0], max(max(self.clf.predict_proba(feature_vector)))]
-
+        return self.clf.predict(feature_vector)[0]
+    
+# max(max(self.clf.predict_proba(feature_vector)))
 #example on how to run/call the program
 #svmObj = SVM()
-#feature_vector = [[1,1,1], [0,0,0]]
+#feature_vector = [[1,1,1], [0,0,0], [-1,-1,0], [2,2,1]]
 #svmObj.train(feature_vector)
-#test_vector = [[1, 1]]
+#test_vector = [[-1, -1]]
 #print(svmObj.test(test_vector))
