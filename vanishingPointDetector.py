@@ -9,14 +9,10 @@ import numpy as np
 # Perform edge detection
 def hough_transform(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # Convert image to grayscale
-    kernel = np.ones((15, 15), np.uint8)
+    kernel = np.ones((10, 10), np.uint8)
     opening = cv2.morphologyEx(gray, cv2.MORPH_OPEN, kernel)  # Open (erode, then dilate)
     edges = cv2.Canny(opening, 50, 150, apertureSize=3)  # Canny edge detection
-    cv2.imshow('edges', edges)
-    cv2.waitKey(5000)
-    cv2.destroyAllWindows()
-    lines = cv2.HoughLines(edges, 1, np.pi / 180, 200)  # Hough line detection
-    print(lines)
+    lines = cv2.HoughLines(edges, 1, np.pi / 180, 40)  # Hough line detection
     hough_lines = []
     # Lines are represented by rho, theta; converted to endpoint notation
     if lines is not None:
@@ -75,7 +71,7 @@ def find_intersections(lines):
                 intersection = line_intersection(line_1, line_2)
                 if intersection:  # If lines cross, then add
                     intersections.append(intersection)
-
+#    print(intersections)
     return intersections
 
 
@@ -93,13 +89,15 @@ def find_vanishing_point(img, grid_size, intersections):
     max_intersections = 0
     best_cell = (0.0, 0.0)
 
-    for i, j in itertools.product(range(grid_rows), range(grid_columns)):
+    for i, j in itertools.product(range(grid_columns), range(grid_rows)):
         cell_left = i * grid_size
         cell_right = (i + 1) * grid_size
         cell_bottom = j * grid_size
         cell_top = (j + 1) * grid_size
         cv2.rectangle(img, (cell_left, cell_bottom), (cell_right, cell_top), (0, 0, 255), 10)
-
+#        cv2.imshow('cells', img)
+#        cv2.waitKey(1000)
+#        cv2.destroyAllWindows()
         current_intersections = 0  # Number of intersections in the current cell
         for x, y in intersections:
             if cell_left < x < cell_right and cell_bottom < y < cell_top:
@@ -110,7 +108,7 @@ def find_vanishing_point(img, grid_size, intersections):
             max_intersections = current_intersections
             best_cell = ((cell_left + cell_right) / 2, (cell_bottom + cell_top) / 2)
             print("Best Cell:", best_cell)
-
+            
     if best_cell[0] != None and best_cell[1] != None:
         rx1 = int(best_cell[0] - grid_size / 2)
         ry1 = int(best_cell[1] - grid_size / 2)
@@ -122,13 +120,13 @@ def find_vanishing_point(img, grid_size, intersections):
 
     return best_cell
 
-img = cv2.imread(r'C:\Users\tusha\Documents\CS 766\AutonomousDrivingPathID\Images\Training\1.png',1)
+img = cv2.imread(r'C:\Users\tusha\Documents\CS 766\AutonomousDrivingPathID\Images\Training\vanishing.png',1)
 hough_lines = hough_transform(img)
 if hough_lines:
-    random_sample = sample_lines(hough_lines, 100)
+    random_sample = sample_lines(hough_lines, 10000000)
     intersections = find_intersections(random_sample)
     if intersections:
-        grid_size = min(img.shape[0], img.shape[1]) // 3
+        grid_size = min(img.shape[0], img.shape[1]) // 10
         vanishing_point = find_vanishing_point(img, grid_size, intersections)
 #        filename = '../pictures/output/' + os.path.splitext(file)[0] + '_center' + '.jpg'
 #        cv2.imwrite(filename, img)
