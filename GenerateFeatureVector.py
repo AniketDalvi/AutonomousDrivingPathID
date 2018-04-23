@@ -2,7 +2,8 @@ import numpy as np
 import cv2
 import csv
 import matplotlib.pyplot as plt
-import os 
+import os
+import glob
 
 class FeatureVectorGenerator():
     
@@ -63,8 +64,20 @@ class FeatureVectorGenerator():
     @staticmethod
     def binary_road(img):
     	gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    	_, gray = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
-
+    	#cv2.imshow('image', gray)
+    	#cv2.waitKey(0)
+    	
+    	cv2.normalize(gray, gray, 0, 255, cv2.NORM_MINMAX)
+    	#cv2.imshow('image', gray)
+    	#cv2.waitKey(0)
+    	
+    	_, gary = cv2.threshold(gray, 75, 255, cv2.THRESH_BINARY_INV)
+    	_, gray = cv2.threshold(gray, 10, 255, cv2.THRESH_BINARY)
+    	gray = np.add(gray, gary) - 255
+    	print(gray)
+    	#cv2.imshow('image2', gray)
+    	#cv2.waitKey(0)
+    	
     	erode = cv2.erode(gray, np.ones((3, 3)), anchor = (2,2), iterations = 1)
     	dilate = cv2.dilate(gray, np.ones((3, 3)), anchor = (2,2), iterations = 1)
     	_, dilate = cv2.threshold(dilate, 1, 50, cv2.THRESH_BINARY_INV)
@@ -88,9 +101,11 @@ class FeatureVectorGenerator():
 
 if __name__ == '__main__':
     #print('Use run.py to start')
-    image = cv2.imread('Images/Training/1.png', -1);
-    for i in range(1):
-      FeatureVectorGenerator.binary_road(image)
+    
+    for filename in sorted(glob.glob('Images/Testing/*.png')):
+    	image = cv2.imread(filename, -1);
+
+    	FeatureVectorGenerator.binary_road(image)
 
 
 
