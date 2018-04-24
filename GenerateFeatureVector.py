@@ -4,6 +4,7 @@ import csv
 import matplotlib.pyplot as plt
 import os
 import glob
+import sys
 
 class FeatureVectorGenerator():
     
@@ -37,7 +38,12 @@ class FeatureVectorGenerator():
                 # 	print(window[..., 1])
                 # 	print(window[..., 2])
 
+                #25th element x, 26th element y, then class val
+                c = np.append(c, x)
+                c = np.append(c, y)
                 c = np.append(c, window_class)
+                print(np.concatenate((a, b, c)))
+                sys.stdout.flush()
                 
                 f_vectors.append(np.concatenate((a, b, c)))
 
@@ -90,9 +96,9 @@ class FeatureVectorGenerator():
 
     @staticmethod
     def write_data(feature_vectors, train):
-        name = "testdata.csv"
+        name = "new-testdata.csv"
         if train:
-            name = "traindata.csv"
+            name = "new-traindata.csv"
         if not train:
             os.remove(name)
         with open(name,'a') as resultFile:
@@ -102,10 +108,13 @@ class FeatureVectorGenerator():
 if __name__ == '__main__':
     #print('Use run.py to start')
     
-    for filename in sorted(glob.glob('Images/Testing/*.png')):
-    	image = cv2.imread(filename, -1);
+    # for filename in sorted(glob.glob('Images/Testing/*.png')):
+    # 	image = cv2.imread(filename, -1);
 
-    	FeatureVectorGenerator.binary_road(image)
+    # 	FeatureVectorGenerator.binary_road(image)
+    image = cv2.imread('Images/Training/1.png', -1);
+    FeatureVectorGenerator.generate_feature_vector(image, 10, 10, True, 8, True)
+
 
 
 
