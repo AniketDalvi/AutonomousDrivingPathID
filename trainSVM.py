@@ -14,7 +14,7 @@ class SVM:
     def train(self, feature_vector):
         X = []
         y = []
-        classifier = svm.LinearSVC(C = 0.25)
+        self.clf = svm.LinearSVC(C = 0.1)
 #        self.clf = calibration.CalibratedClassifierCV(classifier, cv = 2)
         for i in range(len(feature_vector)):
             X.append(feature_vector[i][:len(feature_vector[i])-1])

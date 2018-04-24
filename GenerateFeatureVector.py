@@ -27,29 +27,29 @@ class FeatureVectorGenerator():
                 b, b_bin_edges = np.histogram(window[..., 1], bins, (0, 255))
                 c, c_bin_edges = np.histogram(window[..., 2], bins, (0, 255))
                 # if np.count_nonzero(a) == 0 and np.count_nonzero(b) == 0 and np.count_nonzero(c) == 0:
-                # 	print(columns)
-                # 	print(rows)
-                # 	print(y)
-                # 	print(x)
-                # 	print('\n')
-                # 	# print(np.concatenate((a, b, c)))
-                # 	# print('bad vector')
-                # 	print(window[..., 0])
-                # 	print(window[..., 1])
-                # 	print(window[..., 2])
+                #     print(columns)
+                #     print(rows)
+                #     print(y)
+                #     print(x)
+                #     print('\n')
+                #     # print(np.concatenate((a, b, c)))
+                #     # print('bad vector')
+                #     print(window[..., 0])
+                #     print(window[..., 1])
+                #     print(window[..., 2])
 
                 #25th element x, 26th element y, then class val
                 c = np.append(c, x)
                 c = np.append(c, y)
                 c = np.append(c, window_class)
-                print(np.concatenate((a, b, c)))
-                sys.stdout.flush()
+                #print(np.concatenate((a, b, c)))
+                #sys.stdout.flush()
                 
                 f_vectors.append(np.concatenate((a, b, c)))
 
                 
         if save:
-        	FeatureVectorGenerator.write_data(f_vectors, train)
+            FeatureVectorGenerator.write_data(f_vectors, train)
 
 
     @staticmethod
@@ -69,30 +69,30 @@ class FeatureVectorGenerator():
 
     @staticmethod
     def binary_road(img):
-    	gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    	#cv2.imshow('image', gray)
-    	#cv2.waitKey(0)
-    	
-    	cv2.normalize(gray, gray, 0, 255, cv2.NORM_MINMAX)
-    	#cv2.imshow('image', gray)
-    	#cv2.waitKey(0)
-    	
-    	_, gary = cv2.threshold(gray, 75, 255, cv2.THRESH_BINARY_INV)
-    	_, gray = cv2.threshold(gray, 10, 255, cv2.THRESH_BINARY)
-    	gray = np.add(gray, gary) - 255
-    	print(gray)
-    	#cv2.imshow('image2', gray)
-    	#cv2.waitKey(0)
-    	
-    	erode = cv2.erode(gray, np.ones((3, 3)), anchor = (2,2), iterations = 1)
-    	dilate = cv2.dilate(gray, np.ones((3, 3)), anchor = (2,2), iterations = 1)
-    	_, dilate = cv2.threshold(dilate, 1, 50, cv2.THRESH_BINARY_INV)
-    	path_trace = erode+dilate
-    	path_trace = np.int32(path_trace)
-    	cv2.watershed(img,path_trace)
-    	cv2.imshow('image', cv2.convertScaleAbs(path_trace))
-    	cv2.waitKey(0)
-    	cv2.destroyAllWindows()
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        #cv2.imshow('image', gray)
+        #cv2.waitKey(0)
+        
+        cv2.normalize(gray, gray, 0, 255, cv2.NORM_MINMAX)
+        #cv2.imshow('image', gray)
+        #cv2.waitKey(0)
+        
+        _, gary = cv2.threshold(gray, 75, 255, cv2.THRESH_BINARY_INV)
+        _, gray = cv2.threshold(gray, 10, 255, cv2.THRESH_BINARY)
+        gray = np.add(gray, gary) - 255
+        print(gray)
+        #cv2.imshow('image2', gray)
+        #cv2.waitKey(0)
+        
+        erode = cv2.erode(gray, np.ones((3, 3)), anchor = (2,2), iterations = 1)
+        dilate = cv2.dilate(gray, np.ones((3, 3)), anchor = (2,2), iterations = 1)
+        _, dilate = cv2.threshold(dilate, 1, 50, cv2.THRESH_BINARY_INV)
+        path_trace = erode+dilate
+        path_trace = np.int32(path_trace)
+        cv2.watershed(img,path_trace)
+        cv2.imshow('image', cv2.convertScaleAbs(path_trace))
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
     @staticmethod
     def write_data(feature_vectors, train):
@@ -108,12 +108,12 @@ class FeatureVectorGenerator():
 if __name__ == '__main__':
     #print('Use run.py to start')
     
-    # for filename in sorted(glob.glob('Images/Testing/*.png')):
-    # 	image = cv2.imread(filename, -1);
+#     for filename in sorted(glob.glob('Images/Testing/*.png')):
+#         image = cv2.imread(filename, -1);
 
-    # 	FeatureVectorGenerator.binary_road(image)
-    image = cv2.imread('Images/Training/1.png', -1);
-    FeatureVectorGenerator.generate_feature_vector(image, 10, 10, True, 8, True)
+#         FeatureVectorGenerator.binary_road(image)
+#    image = cv2.imread('Images/dump/000180.png', -1);
+    FeatureVectorGenerator.generate_feature_vector(image, 10, 10, False, 8, True)
 
 
 
