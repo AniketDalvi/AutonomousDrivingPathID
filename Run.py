@@ -4,6 +4,7 @@ from numpy import genfromtxt
 from knn import KNearestNeighbors
 from trainSVM import SVM
 import glob
+import sys
 
 #knn_obj = KNearestNeighbors()
 svm_obj = SVM()
@@ -14,10 +15,11 @@ training = False
 bins = 8
 
 destination = 'Result/result'
-i = 400
+i = 450
 print(i)
 for filename in sorted(glob.glob('Images/Testing/*.png')):
 	print(i)
+	sys.stdout.flush()
 	image = cv2.imread(filename, -1)
 	gfv.FeatureVectorGenerator.generate_feature_vector(image, cell_width, cell_length, training, bins, True)
     
